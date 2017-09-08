@@ -9,16 +9,16 @@ header h1,header h2 {
 	display: inline;
 }
 
-div.scroll {
+div#scroll {
 	background: url('http://www.freeiconspng.com/uploads/scroll-png-29.gif') no-repeat;
 	background-size: 100%;
 	width: 33%;
 	margin: 0 auto;
 	padding: 60px 125px;
+	min-height: 175px;
 }
-div.scroll button {
-	position: relative;
-	right: -66%;
+div#scroll button, div#popup button {
+	float: right;
 }
 
 table {
@@ -55,11 +55,14 @@ td.shack:after {
 	content: ":)";
 }
 
-div.tileData {
-	background-color: red;
-    position:fixed;
+div#popup {
+    background: url(http://www.freeiconspng.com/uploads/scroll-png-29.gif) no-repeat;
+    background-size: 100% 100%;
+    position: fixed;
     top: 10%;
-    left: 45%;
-    width: 10%;
-    height: 80%;
+    left: 40%;
+    width: calc(12.5% - 10px);
+    height: 70%;
+    border-radius: 10px;
+    padding: 3% 4%;
 }

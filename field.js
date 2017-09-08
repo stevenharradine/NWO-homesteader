@@ -27,6 +27,7 @@ function getNewSquare () {
 
 function drawMap () {
 	var table = document.createElement("table")
+	table.id = "map"
 
 	var x = Math.floor(Math.random() * 25) + 0
 	var y = Math.floor(Math.random() * 25) + 0
@@ -41,17 +42,18 @@ function drawMap () {
 				td.className += " " + "shack"
 				td.className += " " + "worker"
 			}
-			td.onclick = function () {
-				showTileData (this)
-			}
 
 			tr.appendChild (td)
 		}
 		table.appendChild(tr)
 	}
 
+	table.onclick = function (e) {
+		showTileData (e.target)
+	}
+
 	// clear old screen
-	document.getElementById("container").parentNode.replaceChild (document.getElementById("container").cloneNode(false), container)
+	document.getElementById("container").removeChild (document.getElementById("scroll"))
 
 	// load new screen
 	document.getElementById("container").appendChild (table)
@@ -59,13 +61,44 @@ function drawMap () {
 }
 
 function showTileData (tileData) {
-	var buffer = ""
-	buffer += "<div class='tileData'><p>Tile Data</p>"
-	buffer += "<ul>"
-	buffer += "<li>Type: Forest</li>"
-	buffer += "<li>Type: Forest</li>"
-	buffer += "</ul>"
-	buffer += "</div>"
+	// if a pop up is not open
+	if (document.getElementById("popup") === null) {
+		var tileClasses = tileData.className
 
-	document.getElementById("container").innerHTML += buffer
+		var tileType = ""
+		var worker = ""
+		var building = ""
+
+		if (tileClasses.indexOf("water") >= 0) {
+			tileType = "water"
+		}
+		if (tileClasses.indexOf("forest") >= 0) {
+			tileType = "forest"
+		}
+		if (tileClasses.indexOf("land") >= 0) {
+			tileType = "land"
+		}
+		if (tileClasses.indexOf("shack") >= 0) {
+			building = "shack"
+		}
+		if (tileClasses.indexOf("worker") >= 0) {
+			worker = "worker"
+		}
+		var buffer = "<div id='popup'>"
+		buffer += "<div id='tileData'><p>Tile Data</p>"
+		buffer += "<ul>"
+		buffer += "<li>Type: " + tileType + "</li>"
+		if (building !== "") buffer += "<li>Building: " + building + "</li>"
+		if (worker !== "") buffer += "<li>Worker: " + worker + "</li>"
+		buffer += "</ul>"
+		buffer += "<button onclick='document.getElementById(\"popup\").parentNode.removeChild(document.getElementById(\"popup\"))'>close</button>"
+		buffer += "</div>"
+		buffer += "</div>"
+
+		document.getElementById("container").innerHTML += buffer
+
+		document.getElementById("map").onclick = function (e) {
+			showTileData (e.target)
+		}
+	}
 }
