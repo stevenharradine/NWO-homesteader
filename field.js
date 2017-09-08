@@ -35,9 +35,9 @@ function drawMap () {
 		fieldTable += "<tr>"
 		for (var j = 0; j <= 25; j++) {
 
-			fieldTable += "<td class='" + getNewSquare() + "'>"
-			fieldTable += x == i && y == j ? "S" : ""
-			fieldTable += "</td>"
+			var shackClass = x == i && y == j ? " shack " : ""
+
+			fieldTable += "<td class='" + getNewSquare() + shackClass + "'></td>"
 		}
 		fieldTable += "</tr>"
 	}

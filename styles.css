@@ -48,3 +48,6 @@ td.water {
 td.forest {
 	background-color: brown;
 }
+td.shack:after {
+	content: "^";
+}
