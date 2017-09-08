@@ -1,5 +1,4 @@
-# NWO-homesteader
-New World Order: homesteader
+# New World Order: homesteader
 
 ** NOTE: ** this is pre MVP and not ready even for basic game play, but hey were doing it in the open so this is what we got so far.
 
