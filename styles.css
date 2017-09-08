@@ -1,0 +1,50 @@
+header {
+	padding-left: 33%;
+	margin-bottom: 10px;
+}
+header h1:after {
+	content: ":";
+}
+header h1,header h2 {
+	display: inline;
+}
+
+div.scroll {
+	background: url('http://www.freeiconspng.com/uploads/scroll-png-29.gif') no-repeat;
+	background-size: 100%;
+	width: 33%;
+	margin: 0 auto;
+	padding: 60px 125px;
+}
+div.scroll button {
+	position: relative;
+	right: -66%;
+}
+
+table {
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+td {
+	width: 10px;
+	height: 10px;
+}
+td {
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+}
+td:last-child {
+	border-right: 1px solid black;
+}
+tr:last-child {
+	border-bottom: 1px solid black;
+}
+td.land {
+	background-color: green;
+}
+td.water {
+	background-color: blue;
+}
+td.forest {
+	background-color: brown;
+}
