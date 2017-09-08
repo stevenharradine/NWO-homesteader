@@ -9,11 +9,14 @@ header h1,header h2 {
 	display: inline;
 }
 
+#container {
+	width: 770px;
+    margin: 0 auto;
+}
+
 div#scroll {
 	background: url('http://www.freeiconspng.com/uploads/scroll-png-29.gif') no-repeat;
 	background-size: 100%;
-	width: 33%;
-	margin: 0 auto;
 	padding: 60px 125px;
 	min-height: 175px;
 }
@@ -22,7 +25,7 @@ div#scroll button, div#popup button {
 }
 
 table {
-	margin: 0 auto;
+	float: left;
 	border-collapse: collapse;
 }
 td {
@@ -54,6 +57,9 @@ td.shack:before {
 td.shack:after {
 	content: ":)";
 }
+td.selected {
+	border: 1px solid red;
+}
 
 div#popup {
     background: url(http://www.freeiconspng.com/uploads/scroll-png-29.gif) no-repeat;
@@ -65,4 +71,10 @@ div#popup {
     height: 70%;
     border-radius: 10px;
     padding: 3% 4%;
+}
+.legend {
+    margin-left: 350px;
+	border: 1px solid black;
+}
+#mapDetail {
 }
