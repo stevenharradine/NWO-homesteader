@@ -48,6 +48,9 @@ td.water {
 td.forest {
 	background-color: brown;
 }
-td.shack:after {
+td.shack:before {
 	content: "^";
+}
+td.shack:after {
+	content: ":)";
 }

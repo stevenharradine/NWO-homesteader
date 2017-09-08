@@ -26,22 +26,31 @@ function getNewSquare () {
 }
 
 function drawMap () {
-	var fieldTable = "<table>"
+	var table = document.createElement("table")
 
-	var x = Math.floor(Math.random() * 25) + 0  
-	var y = Math.floor(Math.random() * 25) + 0  
+	var x = Math.floor(Math.random() * 25) + 0
+	var y = Math.floor(Math.random() * 25) + 0
 
 	for (var i = 0; i <= 25; i++) {
-		fieldTable += "<tr>"
+		var tr = document.createElement("tr")
 		for (var j = 0; j <= 25; j++) {
+			var td = document.createElement("td")
 
-			var shackClass = x == i && y == j ? " shack " : ""
+			td.className += " " + getNewSquare()
+			if (x == i && y == j) {
+				td.className += " " + "shack"
+				td.className += " " + "worker"
+			}
 
-			fieldTable += "<td class='" + getNewSquare() + shackClass + "'></td>"
+			tr.appendChild (td)
 		}
-		fieldTable += "</tr>"
+		table.appendChild(tr)
 	}
 
-	fieldTable += "</table>"
-	document.getElementById("container").innerHTML = fieldTable	
+	// clear old screen
+	document.getElementById("container").parentNode.replaceChild (document.getElementById("container").cloneNode(false), container)
+
+	// load new screen
+	document.getElementById("container").appendChild (table)
+
 }
