@@ -12,7 +12,7 @@ var tileTypes = [{
 		"type":"forest",
 		"probability": "10"
 }]
-getNewSquare()
+
 function getNewSquare () {
 	var probabilityMatrix = new Array ()
 
@@ -21,8 +21,6 @@ function getNewSquare () {
 			probabilityMatrix.push (tileTypes[i].type)
 		}
 	}
-
-
 
 	return probabilityMatrix[Math.floor(Math.random() * probabilityMatrix.length) + 0]
 }
