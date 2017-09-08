@@ -54,3 +54,12 @@ td.shack:before {
 td.shack:after {
 	content: ":)";
 }
+
+div.tileData {
+	background-color: red;
+    position:fixed;
+    top: 10%;
+    left: 45%;
+    width: 10%;
+    height: 80%;
+}

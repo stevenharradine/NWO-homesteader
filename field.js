@@ -41,6 +41,9 @@ function drawMap () {
 				td.className += " " + "shack"
 				td.className += " " + "worker"
 			}
+			td.onclick = function () {
+				showTileData (this)
+			}
 
 			tr.appendChild (td)
 		}
@@ -53,4 +56,16 @@ function drawMap () {
 	// load new screen
 	document.getElementById("container").appendChild (table)
 
+}
+
+function showTileData (tileData) {
+	var buffer = ""
+	buffer += "<div class='tileData'><p>Tile Data</p>"
+	buffer += "<ul>"
+	buffer += "<li>Type: Forest</li>"
+	buffer += "<li>Type: Forest</li>"
+	buffer += "</ul>"
+	buffer += "</div>"
+
+	document.getElementById("container").innerHTML += buffer
 }
