@@ -42,19 +42,19 @@ td:last-child {
 tr:last-child {
 	border-bottom: 1px solid black;
 }
-td.land {
+td[data-tile-type="land"] {
 	background-color: green;
 }
-td.water {
+td[data-tile-type="water"] {
 	background-color: blue;
 }
-td.forest {
+td[data-tile-type="forest"] {
 	background-color: brown;
 }
-td.shack:before {
+td[data-building="shack"]:before {
 	content: "^";
 }
-td.shack:after {
+td[data-unit="worker"]:after {
 	content: ":)";
 }
 td.selected {
@@ -72,9 +72,8 @@ div#popup {
     border-radius: 10px;
     padding: 3% 4%;
 }
-.legend {
+.legend, #actions {
     margin-left: 350px;
 	border: 1px solid black;
-}
-#mapDetail {
+	padding: 5px;
 }

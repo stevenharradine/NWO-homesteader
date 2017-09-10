@@ -1,4 +1,8 @@
-document.getElementById ("beginJourney").onclick = function () {
+var beginJourneyButton = document.getElementById ("beginJourney")
+
+beginJourneyButton.focus()
+
+beginJourneyButton.onclick = function () {
 	drawMap()
 	drawMapDetail()
 	drawActions()
@@ -63,10 +67,10 @@ function drawMap () {
 		for (var j = 0; j <= 25; j++) {
 			var td = document.createElement("td")
 
-			td.className += " " + getNewSquare()
+			td.setAttribute ("data-tile-type", getNewSquare())
 			if (x == i && y == j) {
-				td.className += " " + "shack"
-				td.className += " " + "worker"
+				td.setAttribute ("data-building", "shack")
+				td.setAttribute ("data-unit", "worker")
 			}
 
 			tr.appendChild (td)
@@ -91,21 +95,10 @@ function showTileData (tileData) {
 		var worker = ""
 		var building = ""
 
-		if (tileClasses.indexOf("water") >= 0) {
-			tileType = "water"
-		}
-		if (tileClasses.indexOf("forest") >= 0) {
-			tileType = "forest"
-		}
-		if (tileClasses.indexOf("land") >= 0) {
-			tileType = "land"
-		}
-		if (tileClasses.indexOf("shack") >= 0) {
-			building = "shack"
-		}
-		if (tileClasses.indexOf("worker") >= 0) {
-			worker = "worker"
-		}
+		tileType = tileData.getAttribute ("data-tile-type")
+		building = tileData.getAttribute ("data-building")
+		worker = tileData.getAttribute ("data-unit")
+
 		var buffer = ""
 		buffer += "<li>Type: " + tileType + "</li>"
 		if (building !== "") buffer += "<li>Building: " + building + "</li>"
@@ -120,6 +113,8 @@ function showTileData (tileData) {
 function deselectAll () {
 	var tds = document.getElementsByTagName("td")
 
+	document.getElementsByTagName("table")[0].className = document.getElementsByTagName("table")[0].className.replace("goto","")
+
 	for (var i = 0; i < tds.length; i++) {
 		if (tds[i].className.indexOf("selected"))
 			tds[i].className = tds[i].className.replace ("selected", "")
@@ -131,19 +126,31 @@ function resetMapEventListener () {
 		showTileData (e.target)
 	}
 	document.getElementById("map").onclick = function (e) {
-		deselectAll()
-		e.target.className += " selected"
-		var unitType = ""
+		if (document.getElementById("map").getAttribute("data-action") === "goto") {
+			var tds = document.getElementsByTagName("td")
 
-		if (e.target.className.indexOf ("worker") >= 0) {
-			unitType = "Worker"
+			for (var i = 0; i < tds.length; i++) {
+				if (tds[i].className.indexOf ("selected") >= 0) {
+					e.target.setAttribute ("data-unit", tds[i].getAttribute("data-unit"))
+					tds[i].removeAttribute("data-unit")
+				}
+			}
+
+			deselectAll()
+			document.getElementById("map").removeAttribute("data-action")
+		} else {
+			deselectAll()
+			e.target.className += " selected"
+			var unitType = ""
+
+			unitType = e.target.getAttribute("data-unit")
+			var buffer = "<h3>Actions: " + unitType + "</h3>"
+
+			if (unitType === "worker") {
+				buffer += "<a onclick='document.getElementsByTagName(\"table\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
+			}
+
+			document.getElementById ("actions").innerHTML = buffer
 		}
-		var buffer = "<h3>Actions: " + unitType + "</h3>"
-
-		if (unitType === "Worker") {
-			buffer += "Goto"
-		}
-
-		document.getElementById ("actions").innerHTML = buffer
 	}
 }
