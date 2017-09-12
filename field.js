@@ -99,14 +99,7 @@ function showTileData (tileData) {
 		building = tileData.getAttribute ("data-building")
 		worker = tileData.getAttribute ("data-unit")
 
-		var buffer = ""
-		buffer += "<li>Type: " + tileType + "</li>"
-		if (building !== "") buffer += "<li>Building: " + building + "</li>"
-		if (worker !== "") buffer += "<li>Unit: " + worker + "</li>"
-
-		document.getElementById("mapDetail").innerHTML = buffer
-
-		resetMapEventListener ();
+		updateMapInfo (tileType, building, worker)
 	}
 }
 
@@ -124,6 +117,21 @@ function deselectAll () {
 function resetMapEventListener () {
 	document.getElementById("map").onmouseover = function (e) {
 		showTileData (e.target)
+	}
+	document.getElementById("map").onmouseout = function (e) {
+		var tds = document.getElementsByTagName("td")
+		var foundSelected = false
+
+		for (var i = 0; i < tds.length; i++) {
+			if (tds[i].className.indexOf("selected") >= 0) {
+				updateMapInfo (tds[i].getAttribute("data-tile-type"), tds[i].getAttribute("data-building"), tds[i].getAttribute("data-unit"))
+				foundSelected = true
+			}
+		}
+
+		if (!foundSelected) {
+			updateMapInfo(null,null,null)
+		}
 	}
 	document.getElementById("map").onclick = function (e) {
 		var currentAction = document.getElementById("map").getAttribute("data-action")
@@ -200,4 +208,15 @@ function buildCabin () {
 
 function fetchWood () {
 	document.getElementById("map").setAttribute("data-action", "fetchWood")
+}
+
+function updateMapInfo (tileType, buildingType, unitType) {
+	var buffer = ""
+	if (tileType !== null)     buffer += "<li>Type: " + tileType + "</li>"
+	if (buildingType !== null) buffer += "<li>Building: " + buildingType + "</li>"
+	if (unitType !== null)     buffer += "<li>Unit: " + unitType + "</li>"
+
+	document.getElementById("mapDetail").innerHTML = buffer
+
+	resetMapEventListener ()
 }
