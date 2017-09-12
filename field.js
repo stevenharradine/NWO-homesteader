@@ -112,13 +112,13 @@ function showTileData (tileData) {
 
 function deselectAll () {
 	var tds = document.getElementsByTagName("td")
-
-	document.getElementsByTagName("table")[0].className = document.getElementsByTagName("table")[0].className.replace("goto","")
-
 	for (var i = 0; i < tds.length; i++) {
 		if (tds[i].className.indexOf("selected"))
 			tds[i].className = tds[i].className.replace ("selected", "")
 	}
+
+	document.getElementsByTagName("table")[0].removeAttribute("data-action")
+	document.getElementById("actions").innerHTML = "<h3>Actions: </h3>"
 }
 
 function resetMapEventListener () {
@@ -126,7 +126,8 @@ function resetMapEventListener () {
 		showTileData (e.target)
 	}
 	document.getElementById("map").onclick = function (e) {
-		if (document.getElementById("map").getAttribute("data-action") === "goto") {
+		var currentAction = document.getElementById("map").getAttribute("data-action")
+		if (currentAction === "goto") {
 			var tds = document.getElementsByTagName("td")
 
 			for (var i = 0; i < tds.length; i++) {
@@ -138,6 +139,24 @@ function resetMapEventListener () {
 
 			deselectAll()
 			document.getElementById("map").removeAttribute("data-action")
+		} else if (currentAction === "fetchWood") {
+			if (e.target.getAttribute("data-tile-type") === "forest") {
+				var tds = document.getElementsByTagName("td")
+				var target
+
+				for (var i = 0; i < tds.length; i++) {
+					if (tds[i].className.indexOf ("selected") >= 0) {
+						target = tds[i]
+					}
+				}
+				target.setAttribute ("data-require-wood", target.getAttribute("data-require-wood") - 1)
+
+				if (target.getAttribute("data-require-wood") == 0) {
+					target.setAttribute("data-building", target.getAttribute("data-building").substring(1))
+				}
+			}
+
+			deselectAll()
 		} else {
 			deselectAll()
 			e.target.className += " selected"
@@ -146,11 +165,39 @@ function resetMapEventListener () {
 			unitType = e.target.getAttribute("data-unit")
 			var buffer = "<h3>Actions: " + unitType + "</h3>"
 
+			buffer += "<ul>"
 			if (unitType === "worker") {
-				buffer += "<a onclick='document.getElementsByTagName(\"table\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
+				buffer += "<li><a onclick='document.getElementsByTagName(\"table\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
+				if (e.target.getAttribute("data-building") === null)
+					buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
+				if (e.target.getAttribute("data-building") !== null && e.target.getAttribute("data-building").indexOf("_") === 0)
+					buffer += "<li><a onclick='fetchWood()'>Fetch Wood<a>"
+
 			}
+			buffer += "</ul>"
 
 			document.getElementById ("actions").innerHTML = buffer
 		}
 	}
+}
+
+function buildCabin () {
+	var tds = document.getElementsByTagName("td")
+
+	for (var i = 0; i < tds.length; i++) {
+		if (tds[i].className.indexOf ("selected") >= 0) {
+			if (tds[i].getAttribute("data-building") === null) {
+				tds[i].setAttribute("data-building", "_cabin")
+				tds[i].setAttribute("data-require-wood", "2")
+			} else {
+				alert ("A building already exists")
+			}
+		}
+	}
+
+	deselectAll()
+}
+
+function fetchWood () {
+	document.getElementById("map").setAttribute("data-action", "fetchWood")
 }

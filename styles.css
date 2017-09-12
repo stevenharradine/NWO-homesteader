@@ -54,8 +54,17 @@ td[data-tile-type="forest"] {
 td[data-building="shack"]:before {
 	content: "^";
 }
+td[data-building="_cabin"]:before {
+	content: "_";
+}
+td[data-building="cabin"]:before {
+	content: "^^";
+}
 td[data-unit="worker"]:after {
 	content: ":)";
+}
+table[data-action="fetchWood"]#map td[data-tile-type="forest"] {
+	border: 1px solid red;
 }
 td.selected {
 	border: 1px solid red;
