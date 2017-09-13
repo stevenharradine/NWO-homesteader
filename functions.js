@@ -114,7 +114,7 @@ function showTileData (tileData) {
 		building = tileData.getAttribute ("data-building")
 		worker = tileData.getAttribute ("data-unit")
 
-		updateMapInfo (tileType, building, worker)
+		updateMapInfo (tileData)
 	}
 }
 
@@ -139,13 +139,13 @@ function resetMapEventListener () {
 
 		for (var i = 0; i < tds.length; i++) {
 			if (tds[i].className.indexOf("selected") >= 0) {
-				updateMapInfo (tds[i].getAttribute("data-tile-type"), tds[i].getAttribute("data-building"), tds[i].getAttribute("data-unit"))
+				updateMapInfo (tds[i])
 				foundSelected = true
 			}
 		}
 
 		if (!foundSelected) {
-			updateMapInfo(null,null,null)
+			updateMapInfo(null)
 		}
 	}
 	document.getElementById("map").onclick = function (e) {
@@ -276,10 +276,27 @@ function fetchWater () {
 	document.getElementById("map").setAttribute("data-action", "fetchWater")
 }
 
-function updateMapInfo (tileType, buildingType, unitType) {
+function updateMapInfo (data) {
+	var tileType = data.getAttribute("data-tile-type")
+	var buildingType = data.getAttribute("data-building")
+	var unitType = data.getAttribute("data-unit")
+
 	var buffer = ""
 	if (tileType !== null)     buffer += "<li>Type: " + tileType + "</li>"
-	if (buildingType !== null) buffer += "<li>Building: " + buildingType + "</li>"
+	if (buildingType !== null) {
+		buffer += "<li>Building: "
+		buffer += buildingType.indexOf("_") === 0 ? buildingType.substring(1) + " (in progress)" : buildingType
+		if (buildingType.indexOf("_") === 0) {
+			buffer += "<ul>"
+			for (var i = 0; i < data.attributes.length; i++) {
+				if (data.attributes[i].nodeName.indexOf("require") >= 0) {
+					buffer += "<li>"+data.attributes[i].nodeName.split("-")[data.attributes[i].nodeName.split("-").length - 1] + ":" + data.attributes[i].nodeValue + "</li>"
+				}
+			}
+			buffer += "</ul>"
+		}
+		buffer += "</li>"
+	}
 	if (unitType !== null)     buffer += "<li>Unit: " + unitType + "</li>"
 
 	document.getElementById("mapDetail").innerHTML = buffer
