@@ -17,7 +17,7 @@ var tileTypes = [{
 		"type":"water",
 		"probability": "10"
 },{
-		"type":"forest",
+		"type":"wood",
 		"probability": "10"
 }]
 
@@ -140,29 +140,22 @@ function resetMapEventListener () {
 
 			for (var i = 0; i < tds.length; i++) {
 				if (tds[i].className.indexOf ("selected") >= 0) {
-					e.target.setAttribute ("data-unit", tds[i].getAttribute("data-unit"))
-					tds[i].removeAttribute("data-unit")
-				}
-			}
-
-			deselectAll()
-			document.getElementById("map").removeAttribute("data-action")
-		} else if (currentAction === "fetchWood") {
-			if (e.target.getAttribute("data-tile-type") === "forest") {
-				var tds = document.getElementsByTagName("td")
-				var target
-
-				for (var i = 0; i < tds.length; i++) {
-					if (tds[i].className.indexOf ("selected") >= 0) {
-						target = tds[i]
+					if (tds[i] !== e.target) {
+						e.target.setAttribute ("data-unit", tds[i].getAttribute("data-unit"))
+						tds[i].removeAttribute("data-unit")
 					}
 				}
-				target.setAttribute ("data-require-wood", target.getAttribute("data-require-wood") - 1)
-
-				if (target.getAttribute("data-require-wood") == 0) {
-					target.setAttribute("data-building", target.getAttribute("data-building").substring(1))
-				}
 			}
+
+			document.getElementById("map").removeAttribute("data-action")
+			
+			deselectAll()
+		} else if (currentAction === "fetchWood") {
+			fetch (e, "wood")
+
+			deselectAll()
+		} else if (currentAction === "fetchWater") {
+			fetch (e, "water")
 
 			deselectAll()
 		} else {
@@ -176,10 +169,14 @@ function resetMapEventListener () {
 			buffer += "<ul>"
 			if (unitType === "worker") {
 				buffer += "<li><a onclick='document.getElementsByTagName(\"table\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
-				if (e.target.getAttribute("data-building") === null)
+				if (e.target.getAttribute("data-building") === null) {
 					buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
-				if (e.target.getAttribute("data-building") !== null && e.target.getAttribute("data-building").indexOf("_") === 0)
+					buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
+				}
+				if (e.target.getAttribute("data-require-wood") !== null && e.target.getAttribute("data-require-wood") !== null)
 					buffer += "<li><a onclick='fetchWood()'>Fetch Wood<a>"
+				if (e.target.getAttribute("data-require-water") !== null && e.target.getAttribute("data-require-water") !== null)
+					buffer += "<li><a onclick='fetchWater()'>Fetch Water<a>"
 
 			}
 			buffer += "</ul>"
@@ -187,6 +184,38 @@ function resetMapEventListener () {
 			document.getElementById ("actions").innerHTML = buffer
 		}
 	}
+}
+
+function fetch (e, item) {
+	if (e.target.getAttribute("data-tile-type") === item) {
+		var domAttributeName = "data-require-" + item
+		var tds = document.getElementsByTagName("td")
+		var target
+
+		for (var i = 0; i < tds.length; i++) {
+			if (tds[i].className.indexOf ("selected") >= 0) {
+				target = tds[i]
+			}
+		}
+		target.setAttribute (domAttributeName, target.getAttribute(domAttributeName) - 1)
+
+		if (target.getAttribute(domAttributeName) == 0) {
+			target.removeAttribute(domAttributeName)
+			isBuildingDone(target)
+		}
+	}
+}
+
+function isBuildingDone (target) {
+	for (var i = 0; i < target.attributes.length; i++) {
+		if (target.attributes[i].nodeName.indexOf("require") >= 0) {
+			return false
+		}
+		
+	}
+
+	// if you get to this line the building is finished
+	target.setAttribute("data-building", target.getAttribute("data-building").substring(1))
 }
 
 function buildCabin () {
@@ -206,8 +235,30 @@ function buildCabin () {
 	deselectAll()
 }
 
+function buildFarm () {
+	var tds = document.getElementsByTagName("td")
+
+	for (var i = 0; i < tds.length; i++) {
+		if (tds[i].className.indexOf ("selected") >= 0) {
+			if (tds[i].getAttribute("data-building") === null) {
+				tds[i].setAttribute("data-building", "_farm")
+				tds[i].setAttribute("data-require-wood", "1")
+				tds[i].setAttribute("data-require-water", "2")
+			} else {
+				alert ("A building already exists")
+			}
+		}
+	}
+
+	deselectAll()
+}
+
 function fetchWood () {
 	document.getElementById("map").setAttribute("data-action", "fetchWood")
+}
+
+function fetchWater () {
+	document.getElementById("map").setAttribute("data-action", "fetchWater")
 }
 
 function updateMapInfo (tileType, buildingType, unitType) {

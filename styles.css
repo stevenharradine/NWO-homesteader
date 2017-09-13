@@ -48,7 +48,7 @@ td[data-tile-type="land"] {
 td[data-tile-type="water"] {
 	background-color: blue;
 }
-td[data-tile-type="forest"] {
+td[data-tile-type="wood"] {
 	background-color: brown;
 }
 td[data-building="shack"]:before {
@@ -60,11 +60,21 @@ td[data-building="_cabin"]:before {
 td[data-building="cabin"]:before {
 	content: "^^";
 }
+td[data-building="_farm"]:before {
+	content: "|";
+}
+td[data-building="farm"]:before {
+	content: "|||";
+}
 td[data-unit="worker"]:after {
 	cursor: pointer;
 	content: ":)";
 }
-table[data-action="fetchWood"]#map td[data-tile-type="forest"] {
+table[data-action="fetchWood"]#map td[data-tile-type="wood"] {
+	cursor: pointer;
+	border: 1px solid red;
+}
+table[data-action="fetchWater"]#map td[data-tile-type="water"] {
 	cursor: pointer;
 	border: 1px solid red;
 }
