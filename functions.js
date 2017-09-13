@@ -289,8 +289,13 @@ function updateMapInfo (data) {
 		if (buildingType.indexOf("_") === 0) {
 			buffer += "<ul>"
 			for (var i = 0; i < data.attributes.length; i++) {
-				if (data.attributes[i].nodeName.indexOf("require") >= 0) {
-					buffer += "<li>"+data.attributes[i].nodeName.split("-")[data.attributes[i].nodeName.split("-").length - 1] + ":" + data.attributes[i].nodeValue + "</li>"
+				var currentNode = data.attributes[i]
+				var currentNodeName = currentNode.nodeName
+				var currentNodeValue = currentNode.nodeValue
+				
+				if (currentNodeName.indexOf("require") >= 0) {
+					var currentNodeNameSplit = currentNodeName.split("-")
+					buffer += "<li>"+currentNodeNameSplit[currentNodeNameSplit.length - 1] + ":" + currentNodeValue + "</li>"
 				}
 			}
 			buffer += "</ul>"
