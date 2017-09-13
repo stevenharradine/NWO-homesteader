@@ -287,8 +287,8 @@ function updateMapInfo (data) {
 	}
 	if (buildingType !== null) {
 		buffer += "<li>Building: "
-		buffer += buildingType.indexOf("_") === 0 ? buildingType.substring(1) + " (in progress)" : buildingType
 		if (buildingType.indexOf("_") === 0) {
+			buffer += buildingType.substring(1) + " (in progress)"
 			buffer += "<ul>"
 			for (var i = 0; i < data.attributes.length; i++) {
 				var currentNode      = data.attributes[i]
@@ -301,6 +301,8 @@ function updateMapInfo (data) {
 				}
 			}
 			buffer += "</ul>"
+		} else {
+			buffer += buildingType
 		}
 		buffer += "</li>"
 	}
