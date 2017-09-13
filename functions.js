@@ -19,18 +19,18 @@ function startNewWorldOrderHomesteader () {
 	}
 }
 
-var tileTypes = [{
-		"type":"land",
-		"probability": "80"
-},{
-		"type":"water",
-		"probability": "10"
-},{
-		"type":"wood",
-		"probability": "10"
-}]
-
 function getNewSquare () {
+	var tileTypes = [{
+			"type":"land",
+			"probability": "80"
+	},{
+			"type":"water",
+			"probability": "10"
+	},{
+			"type":"wood",
+			"probability": "10"
+	}]
+
 	var probabilityMatrix = new Array ()
 
 	for (var i = 0; i < tileTypes.length; i++) {
