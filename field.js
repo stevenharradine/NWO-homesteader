@@ -56,27 +56,24 @@ function drawActions () {
 }
 
 function drawMap () {
+	var tableRows    = 25
+	var tableColumns = 25
+
 	var table = document.createElement("table")
 	table.id = "map"
 
-	var x = Math.floor(Math.random() * 25) + 0
-	var y = Math.floor(Math.random() * 25) + 0
-
-	for (var i = 0; i <= 25; i++) {
+	for (var i = 0; i <= tableRows; i++) {
 		var tr = document.createElement("tr")
-		for (var j = 0; j <= 25; j++) {
+		for (var j = 0; j <= tableColumns; j++) {
 			var td = document.createElement("td")
 
 			td.setAttribute ("data-tile-type", getNewSquare())
-			if (x == i && y == j) {
-				td.setAttribute ("data-building", "shack")
-				td.setAttribute ("data-unit", "worker")
-			}
 
 			tr.appendChild (td)
 		}
 		table.appendChild(tr)
 	}
+
 
 	// clear old screen
 	document.getElementById("container").removeChild (document.getElementById("scroll"))
@@ -84,6 +81,15 @@ function drawMap () {
 	// load new screen
 	document.getElementById("container").appendChild (table)
 
+	// make sure we start on land
+	var tds = document.getElementsByTagName("td")
+	var startIndex
+	do {
+		startIndex = Math.floor(Math.random() * tableRows * tableColumns)
+	} while (tds[startIndex].getAttribute("data-tile-type") !== "land")
+
+	tds[startIndex].setAttribute("data-unit", "worker")
+	tds[startIndex].setAttribute("data-building", "shack")
 }
 
 function showTileData (tileData) {
@@ -148,7 +154,7 @@ function resetMapEventListener () {
 			}
 
 			document.getElementById("map").removeAttribute("data-action")
-			
+
 			deselectAll()
 		} else if (currentAction === "fetchWood") {
 			fetch (e, "wood")
