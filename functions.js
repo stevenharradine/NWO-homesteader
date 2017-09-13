@@ -1,13 +1,22 @@
-var beginJourneyButton = document.getElementById ("beginJourney")
+startNewWorldOrderHomesteader ()
 
-beginJourneyButton.focus()
+function startNewWorldOrderHomesteader () {
+	var buffer = ""
+	buffer += "<p>Welcome new comer,</p>"
+	buffer += "<p>you come to this land from a far away place to settle, cultivate, and dominate.  You live in a small prospector shack that barely protects you from the wild and you will not survive the winter unless you build a home.  Secure water, food and fire to build a small house and start your homestead. Find resources, make tools and items to trade.</p>"
+	buffer += "<button id=\"beginJourney\">Begin your journey</button>"
+	document.getElementById ("scroll").innerHTML = buffer
 
-beginJourneyButton.onclick = function () {
-	drawMap()
-	drawMapDetail()
-	drawActions()
+	var beginJourneyButton = document.getElementById ("beginJourney")
+	beginJourneyButton.focus()
 
-	resetMapEventListener ()
+	beginJourneyButton.onclick = function () {
+		drawMap()
+		drawMapDetail()
+		drawActions()
+
+		resetMapEventListener ()
+	}
 }
 
 var tileTypes = [{
