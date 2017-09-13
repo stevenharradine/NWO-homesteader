@@ -282,27 +282,31 @@ function updateMapInfo (data) {
 	var unitType = data.getAttribute("data-unit")
 
 	var buffer = ""
-	if (tileType !== null)     buffer += "<li>Type: " + tileType + "</li>"
+	if (tileType !== null) {
+		buffer += "<li>Type: " + tileType + "</li>"
+	}
 	if (buildingType !== null) {
 		buffer += "<li>Building: "
 		buffer += buildingType.indexOf("_") === 0 ? buildingType.substring(1) + " (in progress)" : buildingType
 		if (buildingType.indexOf("_") === 0) {
 			buffer += "<ul>"
 			for (var i = 0; i < data.attributes.length; i++) {
-				var currentNode = data.attributes[i]
-				var currentNodeName = currentNode.nodeName
+				var currentNode      = data.attributes[i]
+				var currentNodeName  = currentNode.nodeName
 				var currentNodeValue = currentNode.nodeValue
-				
+
 				if (currentNodeName.indexOf("require") >= 0) {
 					var currentNodeNameSplit = currentNodeName.split("-")
-					buffer += "<li>"+currentNodeNameSplit[currentNodeNameSplit.length - 1] + ":" + currentNodeValue + "</li>"
+					buffer += "<li>" + currentNodeNameSplit[currentNodeNameSplit.length - 1] + ":" + currentNodeValue + "</li>"
 				}
 			}
 			buffer += "</ul>"
 		}
 		buffer += "</li>"
 	}
-	if (unitType !== null)     buffer += "<li>Unit: " + unitType + "</li>"
+	if (unitType !== null) {
+		buffer += "<li>Unit: " + unitType + "</li>"
+	}
 
 	document.getElementById("mapDetail").innerHTML = buffer
 
