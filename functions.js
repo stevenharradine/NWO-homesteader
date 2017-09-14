@@ -191,12 +191,12 @@ function resetMapEventListener () {
 				} else if (e.target.getAttribute("data-building") === "farm" && e.target.getAttribute("data-crop") === null) {
 					buffer += "<li><a onclick='plant(\"corn\")'>Plant Corn<a>"
 					buffer += "<li><a onclick='plant(\"wheat\")'>Plant Wheat<a>"
-					buffer += "<li><a onclick='plant(\"carrot\")'>Plant Carrots<a>"
+					buffer += "<li><a onclick='plant(\"carrots\")'>Plant Carrots<a>"
 				}
 				if (e.target.getAttribute("data-require-wood") !== null && e.target.getAttribute("data-require-wood") !== null)
-					buffer += "<li><a onclick='fetchWood()'>Fetch Wood<a>"
+					buffer += "<li class=\"fetchWood\"><a onclick='fetchWood()'>Fetch Wood<a>"
 				if (e.target.getAttribute("data-require-water") !== null && e.target.getAttribute("data-require-water") !== null)
-					buffer += "<li><a onclick='fetchWater()'>Fetch Water<a>"
+					buffer += "<li class=\"fetchWater\"><a onclick='fetchWater()'>Fetch Water<a>"
 
 			}
 			buffer += "</ul>"
