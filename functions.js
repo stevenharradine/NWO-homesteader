@@ -189,6 +189,10 @@ function resetMapEventListener () {
 						buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
 					if (e.target.getAttribute("data-tile-type") === "land")
 						buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
+				} else if (e.target.getAttribute("data-building") === "farm" && e.target.getAttribute("data-crop") === null) {
+					buffer += "<li><a onclick='plant(\"corn\"))'>Plant Corn<a>"
+					buffer += "<li><a onclick='plant(\"wheat\")'>Plant Wheat<a>"
+					buffer += "<li><a onclick='plant(\"carrot\")'>Plant Carrots<a>"
 				}
 				if (e.target.getAttribute("data-require-wood") !== null && e.target.getAttribute("data-require-wood") !== null)
 					buffer += "<li><a onclick='fetchWood()'>Fetch Wood<a>"
@@ -199,6 +203,17 @@ function resetMapEventListener () {
 			buffer += "</ul>"
 
 			document.getElementById ("actions").innerHTML = buffer
+		}
+	}
+}
+
+function plant (typeOfPlant) {
+	var tds = document.getElementsByTagName("td")
+	for (var i = 0; i < tds.length; i++) {
+		if (tds[i].className.indexOf ("selected") >= 0) {
+			target = tds[i]
+			target.setAttribute("data-crop", "_" + typeOfPlant)
+			target.setAttribute("data-require-water", "3")
 		}
 	}
 }
@@ -218,7 +233,11 @@ function fetch (e, item) {
 
 		if (target.getAttribute(domAttributeName) == 0) {
 			target.removeAttribute(domAttributeName)
-			isBuildingDone(target)
+
+			if (target.getAttribute("data-building").indexOf("_") === 0)
+				isBuildingDone(target)
+			else if (target.getAttribute("data-crop").indexOf("_") === 0)
+				isCropDone(target)
 		}
 	}
 }
@@ -233,6 +252,18 @@ function isBuildingDone (target) {
 
 	// if you get to this line the building is finished
 	target.setAttribute("data-building", target.getAttribute("data-building").substring(1))
+}
+
+function isCropDone (target) {
+	for (var i = 0; i < target.attributes.length; i++) {
+		if (target.attributes[i].nodeName.indexOf("require") >= 0) {
+			return false
+		}
+		
+	}
+
+	// if you get to this line the building is finished
+	target.setAttribute("data-crop", target.getAttribute("data-crop").substring(1))
 }
 
 function buildCabin () {
