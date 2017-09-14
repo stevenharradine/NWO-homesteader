@@ -125,7 +125,7 @@ function deselectAll () {
 			tds[i].className = tds[i].className.replace ("selected", "")
 	}
 
-	document.getElementsByTagName("table")[0].removeAttribute("data-action")
+	document.getElementsByTagName("body")[0].removeAttribute("data-action")
 	document.getElementById("actions").innerHTML = "<h3>Actions: </h3>"
 }
 
@@ -149,7 +149,7 @@ function resetMapEventListener () {
 		}
 	}
 	document.getElementById("map").onclick = function (e) {
-		var currentAction = document.getElementById("map").getAttribute("data-action")
+		var currentAction = document.getElementsByTagName("body")[0].getAttribute("data-action")
 		if (currentAction === "goto") {
 			var tds = document.getElementsByTagName("td")
 
@@ -162,7 +162,7 @@ function resetMapEventListener () {
 				}
 			}
 
-			document.getElementById("map").removeAttribute("data-action")
+			document.getElementsByTagName("body")[0].removeAttribute("data-action")
 
 			deselectAll()
 		} else if (currentAction === "fetchWood") {
@@ -183,7 +183,7 @@ function resetMapEventListener () {
 
 			buffer += "<ul>"
 			if (unitType === "worker") {
-				buffer += "<li><a onclick='document.getElementsByTagName(\"table\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
+				buffer += "<li class=\"goto\"><a onclick='document.getElementsByTagName(\"body\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
 				if (e.target.getAttribute("data-building") === null) {
 					buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
 					buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
@@ -269,17 +269,17 @@ function buildFarm () {
 }
 
 function fetchWood () {
-	document.getElementById("map").setAttribute("data-action", "fetchWood")
+	document.getElementsByTagName("body")[0].setAttribute("data-action", "fetchWood")
 }
 
 function fetchWater () {
-	document.getElementById("map").setAttribute("data-action", "fetchWater")
+	document.getElementsByTagName("body")[0].setAttribute("data-action", "fetchWater")
 }
 
 function updateMapInfo (data) {
-	var tileType = data.getAttribute("data-tile-type")
-	var buildingType = data.getAttribute("data-building")
-	var unitType = data.getAttribute("data-unit")
+	var tileType = data !== null ? data.getAttribute("data-tile-type") : null ;
+	var buildingType = data !== null ? data.getAttribute("data-building") : null ;
+	var unitType = data !== null ? data.getAttribute("data-unit") : null;
 
 	var buffer = ""
 	if (tileType !== null) {

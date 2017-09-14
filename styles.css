@@ -70,11 +70,11 @@ td[data-unit="worker"]:after {
 	cursor: pointer;
 	content: ":)";
 }
-table[data-action="fetchWood"]#map td[data-tile-type="wood"] {
+body[data-action="fetchWood"] table#map td[data-tile-type="wood"] {
 	cursor: pointer;
 	border: 1px solid red;
 }
-table[data-action="fetchWater"]#map td[data-tile-type="water"] {
+body[data-action="fetchWater"] table#map td[data-tile-type="water"] {
 	cursor: pointer;
 	border: 1px solid red;
 }
@@ -99,5 +99,13 @@ div#popup {
 	padding: 5px;
 }
 a {
+	cursor: pointer;
+}
+body[data-action="goto"] li.goto {
+	background: black;
+	color: white;
+}
+body[data-action="goto"] table#map td {
+	border: 1px red solid;
 	cursor: pointer;
 }
