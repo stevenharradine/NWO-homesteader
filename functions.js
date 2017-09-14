@@ -184,10 +184,13 @@ function resetMapEventListener () {
 			if (unitType === "worker") {
 				buffer += "<li class=\"goto\"><a onclick='document.getElementsByTagName(\"body\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
 				if (e.target.getAttribute("data-building") === null) {
-					if (e.target.getAttribute("data-tile-type") === "land" || e.target.getAttribute("data-tile-type") === "wood")
+					if (e.target.getAttribute("data-tile-type") === "land" || e.target.getAttribute("data-tile-type") === "wood") {
 						buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
-					if (e.target.getAttribute("data-tile-type") === "land")
+						buffer += "<li><a onclick='buildShed()'>Build Shed<a>"
+					}
+					if (e.target.getAttribute("data-tile-type") === "land") {
 						buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
+					}
 				} else if (e.target.getAttribute("data-building") === "farm" && e.target.getAttribute("data-crop") === null) {
 					buffer += "<li><a onclick='plant(\"corn\")'>Plant Corn<a>"
 					buffer += "<li><a onclick='plant(\"wheat\")'>Plant Wheat<a>"
@@ -274,6 +277,23 @@ function buildCabin () {
 		if (tds[i].className.indexOf ("selected") >= 0) {
 			if (tds[i].getAttribute("data-building") === null) {
 				tds[i].setAttribute("data-building", "_cabin")
+				tds[i].setAttribute("data-require-wood", "15")
+			} else {
+				alert ("A building already exists")
+			}
+		}
+	}
+
+	deselectAll()
+}
+
+function buildShed () {
+	var tds = document.getElementsByTagName("td")
+
+	for (var i = 0; i < tds.length; i++) {
+		if (tds[i].className.indexOf ("selected") >= 0) {
+			if (tds[i].getAttribute("data-building") === null) {
+				tds[i].setAttribute("data-building", "_shed")
 				tds[i].setAttribute("data-require-wood", "2")
 			} else {
 				alert ("A building already exists")

@@ -60,6 +60,12 @@ td[data-building="_cabin"]:before {
 td[data-building="cabin"]:before {
 	content: "^^";
 }
+td[data-building="_shed"]:before {
+	content: "/";
+}
+td[data-building="shed"]:before {
+	content: "|^|";
+}
 td[data-building="_farm"]:before {
 	content: "|";
 }
