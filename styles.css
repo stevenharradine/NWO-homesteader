@@ -66,6 +66,24 @@ td[data-building="_farm"]:before {
 td[data-building="farm"]:before {
 	content: "|||";
 }
+td[data-building="farm"][data-crop="_corn"]:before {
+	content: "|_|";
+}
+td[data-building="farm"][data-crop="corn"]:before {
+	content: "|8|";
+}
+td[data-building="farm"][data-crop="_wheat"]:before {
+	content: "|_|";
+}
+td[data-building="farm"][data-crop="wheat"]:before {
+	content: "|7|";
+}
+td[data-building="farm"][data-crop="_carrots"]:before {
+	content: "|_|";
+}
+td[data-building="farm"][data-crop="carrots"]:before {
+	content: "|V|";
+}
 td[data-unit="worker"]:after {
 	cursor: pointer;
 	content: ":)";

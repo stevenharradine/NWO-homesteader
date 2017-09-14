@@ -70,7 +70,6 @@ function drawMap () {
 
 	var table = document.createElement("table")
 	table.id = "map"
-
 	for (var i = 0; i <= tableRows; i++) {
 		var tr = document.createElement("tr")
 		for (var j = 0; j <= tableColumns; j++) {
@@ -82,7 +81,6 @@ function drawMap () {
 		}
 		table.appendChild(tr)
 	}
-
 
 	// clear old screen
 	document.getElementById("container").removeChild (document.getElementById("scroll"))
@@ -112,6 +110,7 @@ function showTileData (tileData) {
 
 		tileType = tileData.getAttribute ("data-tile-type")
 		building = tileData.getAttribute ("data-building")
+		crop = tileData.getAttribute ("data-crop")
 		worker = tileData.getAttribute ("data-unit")
 
 		updateMapInfo (tileData)
@@ -314,6 +313,7 @@ function fetchWater () {
 function updateMapInfo (data) {
 	var tileType = data !== null ? data.getAttribute("data-tile-type") : null ;
 	var buildingType = data !== null ? data.getAttribute("data-building") : null ;
+	var cropType = data !== null ? data.getAttribute("data-crop") : null ;
 	var unitType = data !== null ? data.getAttribute("data-unit") : null;
 
 	var buffer = ""
@@ -338,6 +338,27 @@ function updateMapInfo (data) {
 			buffer += "</ul>"
 		} else {
 			buffer += buildingType
+		}
+		buffer += "</li>"
+	}
+	if (cropType !== null) {
+		buffer += "<li>Crop: "
+		if (cropType.indexOf("_") === 0) {
+			buffer += cropType.substring(1) + " (growing)"
+			buffer += "<ul>"
+			for (var i = 0; i < data.attributes.length; i++) {
+				var currentNode      = data.attributes[i]
+				var currentNodeName  = currentNode.nodeName
+				var currentNodeValue = currentNode.nodeValue
+
+				if (currentNodeName.indexOf("require") >= 0) {
+					var currentNodeNameSplit = currentNodeName.split("-")
+					buffer += "<li>" + currentNodeNameSplit[currentNodeNameSplit.length - 1] + ":" + currentNodeValue + "</li>"
+				}
+			}
+			buffer += "</ul>"
+		} else {
+			buffer += cropType
 		}
 		buffer += "</li>"
 	}
