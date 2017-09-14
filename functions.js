@@ -185,8 +185,10 @@ function resetMapEventListener () {
 			if (unitType === "worker") {
 				buffer += "<li class=\"goto\"><a onclick='document.getElementsByTagName(\"body\")[0].setAttribute(\"data-action\", \"goto\")'>Goto<a>"
 				if (e.target.getAttribute("data-building") === null) {
-					buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
-					buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
+					if (e.target.getAttribute("data-tile-type") === "land" || e.target.getAttribute("data-tile-type") === "wood")
+						buffer += "<li><a onclick='buildCabin()'>Build Cabin<a>"
+					if (e.target.getAttribute("data-tile-type") === "land")
+						buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
 				}
 				if (e.target.getAttribute("data-require-wood") !== null && e.target.getAttribute("data-require-wood") !== null)
 					buffer += "<li><a onclick='fetchWood()'>Fetch Wood<a>"
