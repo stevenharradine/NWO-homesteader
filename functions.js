@@ -216,6 +216,8 @@ function plant (typeOfPlant) {
 			target.setAttribute("data-require-water", "3")
 		}
 	}
+
+	deselectAll()
 }
 
 function fetch (e, item) {
