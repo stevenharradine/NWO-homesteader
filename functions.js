@@ -189,7 +189,7 @@ function resetMapEventListener () {
 					if (e.target.getAttribute("data-tile-type") === "land")
 						buffer += "<li><a onclick='buildFarm()'>Build Farm<a>"
 				} else if (e.target.getAttribute("data-building") === "farm" && e.target.getAttribute("data-crop") === null) {
-					buffer += "<li><a onclick='plant(\"corn\"))'>Plant Corn<a>"
+					buffer += "<li><a onclick='plant(\"corn\")'>Plant Corn<a>"
 					buffer += "<li><a onclick='plant(\"wheat\")'>Plant Wheat<a>"
 					buffer += "<li><a onclick='plant(\"carrot\")'>Plant Carrots<a>"
 				}
